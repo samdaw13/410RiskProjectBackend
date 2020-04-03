@@ -43,9 +43,12 @@ app.use(methodOverride('_method'))
 
 app.get('/', checkAuthenticated, (req, res) => {
   res.render('index.ejs');
+  console.log(res)
 })
 
 app.get('/login', checkNotAuthenticated, (req, res) => {
+  console.log("Logged in")
+  console.log(res)
   res.render('login.ejs');
 })
 
