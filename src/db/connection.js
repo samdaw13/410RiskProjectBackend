@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const connection = "mongodb://mongo:27017/risk";
+const connection = "mongodb://localhost:27017/risk";
 
 const connectDb = () => {
     return mongoose.connect(connection)

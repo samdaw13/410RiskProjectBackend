@@ -1,3 +1,4 @@
+var cors = require('cors');
 const express = require('express')
 const Enforcer = require('openapi-enforcer-middleware')
 const axios = require('axios');
@@ -12,7 +13,7 @@ const initializePassport = require("./passport-config")
 const db = mongoose.connection
 const app = express()
 app.use(express.json())
-
+app.use(cors())
 initializePassport(passport, 
   username => axios.get('http://localhost:3000/players/' + username),
   id => axios.get('http://localhost:3000/players/' + id),

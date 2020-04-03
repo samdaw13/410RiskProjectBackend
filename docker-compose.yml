@@ -16,12 +16,12 @@ services:
         
         depends_on: 
             - mongo
-    web:
-        build:
-            context: .
-        ports:
-            - 3000:3000
-        volumes:
-            - ./src:/root/src
-        depends_on:
-            - mongo-express
+    # web:
+    #     build:
+    #         context: .
+    #     ports:
+    #         - 3000:3000
+    #     volumes:
+    #         - ./src:/root/src
+    #     depends_on:
+    #         - mongo-express

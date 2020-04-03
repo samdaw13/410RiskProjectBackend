@@ -12,7 +12,7 @@ exports.listPlayers = async function (req, res, next) {
         let playerAvatar = player.avatar
         let playerPassword = player.password
         response.push({
-            id: id,
+            _id: id,
             name: playerName,
             avatar: playerAvatar,
             password: playerPassword
