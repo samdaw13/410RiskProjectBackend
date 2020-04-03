@@ -1,0 +1,501 @@
+openapi: '3.0.2'
+info:
+  title: 'Risk API'
+  version: '1.0.0'
+paths:
+  /games:
+    parameters:
+      - in: query
+        name: gameName
+        schema:
+          type: string
+    get:
+      x-controller: games
+      x-operation: getGames
+      summary: Get a list of all available games
+      tags:
+        - Games
+      responses:
+        200:
+          description: List of all avaialbe games
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Game'
+    post:
+      x-controller: games
+      x-operation: postGame
+      summary: Creates a new game
+      tags:
+        - Games
+      responses:
+        200:
+          description: New game created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+                
+                  
+  /games/{_id}:
+    parameters: 
+      - $ref: '#/components/parameters/_id'
+    get:
+      x-controller: games
+      x-operation: getGame
+      summary: Lists details of single game
+      tags:
+        - Games
+      responses:
+        200:
+          description: Details of given game
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+    delete:
+      x-controller: games
+      x-operation: deleteGame
+      summary: Delete Game
+      tags:
+        - Games
+      responses:
+        200:
+          description: Game Deleted
+          content:
+            application/json:
+              schema:
+                type: string
+  
+  
+  /games/{_id}/players:
+    parameters: 
+      - $ref: '#/components/parameters/_id'
+    get:
+      x-controller: games
+      x-operation: getGamesPlayers
+      summary: Get a list of players in a game
+      tags:
+        - Games
+      responses:
+        200:
+          description: List of players in a given game
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Player'
+                  
+  /games/{_id}/players/{playerName}:
+    parameters: 
+      - $ref: '#/components/parameters/_id'
+      - $ref: '#/components/parameters/playerName'
+    put:
+      x-controller: games
+      x-operation: addPlayerToGame
+      summary: Add a player to a game
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+      tags:
+        - Games  
+      responses:
+        200:
+          description: Added player to game
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+        
+  /games/{_id}/players/{playerName}/card/{card_id}:
+    parameters: 
+      - $ref: '#/components/parameters/_id'
+      - $ref: '#/components/parameters/playerName'
+      - $ref: '#/components/parameters/Card_id'
+    put:
+      x-controller: games
+      x-operation: addCardToPlayer
+      summary: Assign card to player
+      tags:
+        - Games
+      requestBody:
+        $ref: '#/components/requestBodies/Card'
+      responses:
+        200:
+          description: Card added to player
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+    delete:
+      x-controller: games
+      x-operation: removeCardFromPlayer
+      summary: Remove card from player
+      tags:
+        - Games
+      responses:
+        200:
+          description: Card removed from player
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+          
+  /games/{_id}/players/{playerName}/territory/{territory_id}:
+    parameters: 
+        - $ref: '#/components/parameters/_id'
+        - $ref: '#/components/parameters/playerName'
+        - $ref: '#/components/parameters/Territory_id'
+    put:
+      x-controller: games
+      x-operation: addTerritoryToPlayer
+      summary: Assign territory to player
+      tags:
+        - Games
+      requestBody:
+        $ref: '#/components/requestBodies/Territory'
+      responses:
+        200:
+          description: Territory added to player
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Territory'
+    delete:
+      x-controller: games
+      x-operation: removeTerritoryFromPlayer
+      summary: Remove territory from player
+      tags:
+        - Games
+        - Players
+        - Territory
+      responses:
+        200:
+          description: Territory removed from player
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+          
+  /players:
+    get:
+      x-controller: players
+      x-operation: listPlayers
+      summary: Get list of players
+      tags:
+        - Players
+      responses:
+        200:
+          description: List of games player is in
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Player'
+    post:
+      x-controller: players
+      x-operation: createPlayer
+      summary: Create a player
+      tags:
+        - Players
+      requestBody:
+        $ref: '#/components/requestBodies/PlayerLogin'
+      responses:
+        200:
+          description: Player created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+    put:
+      x-controller: players
+      x-operation: loginPlayer
+      summary: Player Log In
+      tags:
+        - Players
+      requestBody:
+        $ref: '#/components/requestBodies/PlayerLogin'
+      responses:
+        200:
+          description: Player Logged in successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerLogin'
+    delete:
+      x-controller: players
+      x-operation: logoutPlayer
+      summary: Player Log Out
+      tags:
+        - Players
+      responses:
+        200:
+          description: Player Logged Out
+          
+  /players/{playerName}:
+    parameters:
+      - $ref: '#/components/parameters/playerName'
+    get:
+      x-controller: players
+      x-operation: listPlayer
+      summary: Get list of games player is in
+      tags:
+        - Players
+        - Games
+      responses:
+        200:
+          description: Gets players data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+    put:
+      x-controller: players
+      x-operation: editPlayer
+      summary: Edit players information
+      tags:
+        - Players
+      requestBody:
+        $ref: '#/components/requestBodies/Player'
+      responses:
+        200:
+          description: Player data updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+    delete:
+      x-controller: players
+      x-operation: deletePlayer
+      summary: Delete Player
+      tags:
+        - Players
+      responses:
+        200:
+          description: Player deleted
+  
+  /players/{playerName}/games:
+    parameters:
+      - $ref: '#/components/parameters/playerName'
+    get:
+      x-controller: players
+      x-operation: listPlayerGames
+      summary: Get list of games player is in
+      tags:
+        - Players
+        - Games
+      responses:
+        200:
+          description: List of games player is in
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Game'
+
+  /players/{playerName}/games/{_id}:
+    parameters: 
+      - $ref: '#/components/parameters/playerName'
+      - $ref: '#/components/parameters/_id'
+    get:
+      x-controller: players
+      x-operation: listPlayerGame
+      summary: Get a saved game
+      tags:
+        - Players
+      responses:
+        200:
+          description: Saved game retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+    post:
+      x-controller: players
+      x-operation: saveGame
+      summary: Save a game
+      tags:
+        - Players
+      requestBody:
+        $ref: '#/components/requestBodies/Game'
+      responses:
+        200:
+          description: Game Saved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+    delete:
+      x-controller: players
+      x-operation: deleteGame
+      summary: Delete a game
+      tags:
+        - Players
+      responses:
+        200:
+          description: Game Deleted
+
+components:
+  parameters:
+    _id:
+      name: _id
+      in: path
+      required: true
+      schema:
+        type: string
+        
+    playerName:
+      name: playerName
+      in: path
+      required: true
+      schema:
+        type: string
+    Card_id:
+      name: card_id
+      in: path
+      required: true
+      schema:
+        type: number
+    Territory_id:
+      name: territory_id
+      in: path
+      required: true
+      schema:
+        type: number
+        
+  headers:
+    PostLocation:
+      description: URL to retrieve created resource from
+      schema:
+        type: string
+        
+  requestBodies:
+    Game:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Game'
+    PlayerLogin:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PlayerLogin'
+    Player:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Player'
+    Card:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Card'
+    Territory:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Territory'
+  
+  schemas:
+    Game:
+      type: object
+      required: 
+        - _id
+      properties:
+        _id:
+          description: Unique _identifier
+          type: string
+          readOnly: true
+        name:
+          description: Name of the game
+          type: string
+        players:
+          description: Array of players in the game
+          type: array
+          items:
+            $ref: '#/components/schemas/Player'
+          readOnly: true
+    
+    Player:
+      type: object
+      required: 
+        - _id
+      properties:
+        _id:
+          description: Unique identifier
+          type: string
+          readOnly: true
+        name:
+          description: The user's username
+          type: string
+        avatar:
+          description: The player's avatar URL
+          type: string
+        password:
+          description: The user's password
+          type: string
+    
+    PlayerLogin:
+      type: object
+      properties:
+        name:
+          description: The user's username
+          type: string
+        password:
+          description: The user's password
+          type: string
+    
+    Card:
+      type: object
+      required:
+        - name
+      properties:
+        _id:
+          description: Unique identifier
+          type: number
+          minimum: 1
+          readOnly: true
+        name:
+          description: Territory name on the card or wild1 and wild2
+          type: string
+          minLength: 0
+          readOnly: true
+        cardType:
+          description: Identifies which of the three types the card is 
+          type: string
+          minLength: 0
+          readOnly: true
+        owner:
+          description: ID of player who owns card
+          type: number
+          minimum: 0
+          
+    Territory:
+      type: object
+      properties:
+        _id:
+          description: Unique identifier
+          type: number
+          minimum: 1
+          readOnly: true
+        name:
+          description: Name of the territory
+          type: string
+          minLength: 1
+          readOnly: true
+        troopCont:
+          description: Number of troops in the territory
+          type: number
+          minimum: 0
+        owner:
+          description: ID of player who owned territory
+          type: number
+          minimum: 1
+          
