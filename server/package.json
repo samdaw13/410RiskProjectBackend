@@ -2,7 +2,7 @@
   "name": "risk",
   "version": "1.0.0",
   "description": "risk game",
-  "main": "server.js",
+  "main": "index.js",
   "directories": {
     "test": "tests"
   },
@@ -11,7 +11,10 @@
     "bcrypt": "^4.0.1",
     "chai": "^4.2.0",
     "connect-mongo": "^3.2.0",
+    "connect-mongodb-session": "^2.3.1",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
     "express-flash": "0.0.2",
@@ -25,7 +28,9 @@
     "openapi-enforcer-middleware": "^1.2.2",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "session": "^0.1.0"
+    "path": "^0.12.7",
+    "session": "^0.1.0",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "mocha": "^7.0.1"
@@ -33,8 +38,8 @@
   "scripts": {
     "test": "mocha tests",
     "test:watch": "mocha --watch tests",
-    "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "author": "",
   "license": "ISC"

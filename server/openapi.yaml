@@ -207,12 +207,11 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/PlayerLogin'
       responses:
-        200:
+        201:
           description: Player created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Player'
+          headers:
+            location:
+              $ref: '#/components/headers/PostLocation'
     put:
       x-controller: players
       x-operation: loginPlayer

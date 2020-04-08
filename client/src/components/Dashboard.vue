@@ -2,8 +2,8 @@
 <template>
     <div>
         <h2>Dashboard</h2>
-        <p>Name: {{ user.name }}</p>
-        <form v-on:submit="login">
+        <p>Name: {{ username }}</p>
+        <form v-on:submit="logout">
             <input type="submit" value="Logout"/>
         </form>
     </div>
@@ -13,30 +13,29 @@
 import axios from "axios"
 import router from "../router"
 export default {
-  name: "Login",
+  name: "Dashboard",
   data () {
     return {
-      user: {
-        name: "Jesse"
-      }
+      username: ""
     }
   },
   methods: {
-    getUserData: function () {
-      let self = this
-      console.log(self)
-      axios.get("http://localhost:3000/players")
-        .then((response) => {
-          console.log(response)
-          self.$set(this, "user", response.data.user)
-        })
-        .catch((errors) => {
-          console.log(errors)
-          router.push("/")
-        })
+    getUserData: async function () {
+      
+      let response = await axios.get('http://localhost:3000/api/user')
+      if (response.data) {
+        this.username =  response.data
+      }
+      else{
+        router.push('/login')
+      }
+      
+      
     },
-    logout: function() {
-        
+    logout: async function (e) {
+      let response = await axios.get('http://localhost:3000/api/logout')
+      console.log(response)
+      router.push('/login')
     }
   },
   mounted () {

@@ -1,7 +1,6 @@
-const playerSchema = require('../models/players').Player
-const url = require('url')
-const mongoose = require('mongoose')
-const bcrypt = require('bcrypt')
+const Player = require('../models/players')
+
+const { baseUrl } = require('../env')
 
 exports.listPlayers = async function (req, res, next) {
     const players = await playerSchema.find();
@@ -18,28 +17,35 @@ exports.listPlayers = async function (req, res, next) {
             password: playerPassword
         })
     });
+    console.log(response)
     res.send(response)
 }
 
 exports.createPlayer = async function (req, res, next) {
     let username = req.body.username
-    let hashedPass = await bcrypt.hash(req.body.password, 10)
-    let newPlayer = playerSchema({
-        name: username,
-        avatar: "",
-        password: hashedPass
-    })
-    await newPlayer.save()
-    res.send({
-        id: newPlayer._id,
-        name: newPlayer.name,
-        avatar: newPlayer.avatar,
-        password: newPlayer.password
-    })
+    let password = req.body.password
+    
+    try{
+        await Player.create(username, password)
+        res.status(201)
+        res.set('location', baseUrl + '/api/players')
+    }
+    catch (err) {
+        if (err.code === 'EUEXIST') {
+            res.status(400).send('Email already registered')
+        } 
+        else {
+            console.log(err)
+            res.sendStatus(500)
+        }
+    }
 }
 
 exports.loginPlayer = function (req, res, next) {
-    res.send('OK')
+    req.login(req, res, err => {
+        if (err) return next(err)
+        res.status(200).end()
+    })
 }
 
 exports.logoutPlayer = function (req, res, next) {
@@ -48,19 +54,7 @@ exports.logoutPlayer = function (req, res, next) {
 
 exports.listPlayer = async function (req, res, next) {
     
-    var urlPath = url.parse(req.url).pathname;
-    var splitUrl = urlPath.split('/')
-    var player = await playerSchema.findOne({name: splitUrl[2]})
-    if (player == null){
-        var player = await playerSchema.findById({_id: splitUrl[2]})
-    }
-    var response = {
-        _id: player._id.toHexString(),
-        name: player.name,
-        avatar: player.avatar,
-        password: player.password
-    }
-    res.send(response)
+    res.send('ok')
 
 }
 
