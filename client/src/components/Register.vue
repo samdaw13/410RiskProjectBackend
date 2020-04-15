@@ -15,7 +15,13 @@
               </label>
             </p>
             <p>
-              <button type="button" @click="register()">Register</button>
+              <label>
+                <span>Avatar URL: </span>
+                <input type="string" v-model="avatar">
+              </label>
+            </p>
+            <p>
+              <button class="btn btn-success" type="button" @click="register()">Register</button>
             </p>
             <p>
               {{ message }}
@@ -33,6 +39,7 @@ export default {
     return {
       username: '',
       password: '',
+      avatar: '',
       message: ''
     }
   },
@@ -43,7 +50,8 @@ export default {
       }
       let data = {
         username: this.username,
-        password: this.password
+        password: this.password,
+        avatar: this.avatar
       }
       let response = await axios.post("http://127.0.0.1:3000/api/register", data)
       if (response.status == 200){

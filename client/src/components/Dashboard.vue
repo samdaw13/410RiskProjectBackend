@@ -1,11 +1,11 @@
 
 <template>
     <div>
-        <h2>Dashboard</h2>
-        <p>Name: {{ username }}</p>
-        <form v-on:submit="logout">
-            <input type="submit" value="Logout"/>
-        </form>
+        <h2>Risk!</h2>
+        <p>Welcome {{ username }}!</p>
+        <button class="btn btn-success" @click="createNewGame">Create New Game</button><br><br>
+        <button class="btn btn-success" @click="continueNewGame">Continue Game</button><br><br>
+        <button class="btn btn-danger" @click="deleteGame">Delete Game</button>
     </div>
 </template>
 
@@ -23,19 +23,22 @@ export default {
     getUserData: async function () {
       
       let response = await axios.get('http://localhost:3000/api/user')
-      if (response.data) {
+      if (response.status == 200) {
         this.username =  response.data
       }
       else{
         router.push('/login')
       }
-      
-      
     },
-    logout: async function (e) {
-      let response = await axios.get('http://localhost:3000/api/logout')
-      console.log(response)
-      router.push('/login')
+    createNewGame: function() {
+      router.push('/create')
+    }
+    ,
+    continueNewGame: function() {
+      router.push('/continue')
+    },
+    deleteGame: function() {
+      router.push('/delete')
     }
   },
   mounted () {

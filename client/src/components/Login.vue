@@ -14,7 +14,7 @@
       </label>
     </p>
     <p>
-      <button type="button" @click="login()">Login</button>
+      <button class="btn btn-success" type="button" @click="login()">Login</button>
     </p>
     <router-link :to="{ name: 'Register'}">New? Click here to Register</router-link>
     <p>

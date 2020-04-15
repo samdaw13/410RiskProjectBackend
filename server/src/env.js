@@ -1,11 +1,7 @@
-const result = require('dotenv').config()
 
-if (result.error) {
-    throw result.error
-}
+require('dotenv').config()
+
 const env = process.env;
-   
-console.log(result.parsed)
 
 exports.baseUrl = `${env.SERVER_PROTOCOL}://${env.SERVER_HOST}:${env.SERVER_PORT}`
 

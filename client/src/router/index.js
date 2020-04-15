@@ -4,6 +4,12 @@ import axios from "axios"
 import Login from "@/components/Login"
 import Dashboard from "@/components/Dashboard"
 import Register from "@/components/Register"
+import Navigation from "@/components/Navigation"
+import Create from "@/components/Create"
+import Delete from "@/components/Delete"
+import Continue from "@/components/Continue"
+import Game from "@/components/Game"
+import Account from "@/components/Account"
 
 Vue.use(VueRouter)
 
@@ -17,12 +23,39 @@ const routes = [
   {
     path: "/register",
     name: "Register",
-    component: Register
+    component: Register,
+    meta: { hideNavigation: true }
   },
   {
     path: "/login",
     name: "Login",
-    component: Login
+    component: Login,
+    meta: { hideNavigation: true }
+  },
+  {
+    path: "/create",
+    name: "Create",
+    component: Create,
+  },
+  {
+    path: "/delete",
+    name: "Delete",
+    component: Delete,
+  },
+  {
+    path: "/continue",
+    name: "Continue",
+    component: Continue,
+  },
+  {
+    path: "/game",
+    name: "Game",
+    component: Game,
+  },
+  {
+    path: "/account",
+    name: "Account",
+    component: Account,
   }
 ]
 

@@ -16,12 +16,15 @@ services:
         
         depends_on: 
             - mongo
-    # web:
-    #     build:
-    #         context: .
-    #     ports:
-    #         - 3000:3000
-    #     volumes:
-    #         - ./src:/root/src
-    #     depends_on:
-    #         - mongo-express
+
+    web:
+        build:
+            context: ./server
+        env_file: ./.env
+        environment: 
+            DB_HOST: mongo
+            SERVER_PORT: 3000
+        depends_on:
+            - mongo-express
+        ports:
+            - 3000:3000

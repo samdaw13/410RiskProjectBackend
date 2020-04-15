@@ -53,8 +53,10 @@ exports.logoutPlayer = function (req, res, next) {
 }
 
 exports.listPlayer = async function (req, res, next) {
+    const player = await playerSchema.find({ name: req.body.username });
     
-    res.send('ok')
+    console.log(player)
+    res.send(player)
 
 }
 
